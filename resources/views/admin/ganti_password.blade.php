@@ -4,8 +4,8 @@
 
 @section('content')
     @include('admin.navigation')
-    <div class="container">
-        <div class="col-lg-6 offset-lg-3">
+    <div class="container d-flex justify-content-center">
+        <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
                     <h2 class="text-center font-weight-bold">Ganti Password</h2>
@@ -26,16 +26,28 @@
                             </div>
                         @endif
 
-                        <div class="form-group">
-                            <label for="password_baru" class="font-weight-bold">Password Baru</label>
-                            <input type="password" name="password_baru" class="form-control" placeholder="Masukkan password baru">
-                            <span class="text-danger">@error('password_baru') {{ $message }} @enderror</span>
+                        <div class="form-group row">
+                            <label for="password_lama" class="font-weight-bold col-form-label col-3 text-left">Password Lama</label>
+                            <div class="col-9">
+                                <input type="password" name="password_lama" class="form-control" placeholder="Password Lama">
+                                <span class="text-danger">@error('password_lama') {{ $message }} @enderror</span>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="password_ulang" class="font-weight-bold">Ulangi Password</label>
-                            <input type="password" name="password_ulang" class="form-control" placeholder="Ulangi Password">
-                            <span class="text-danger">@error('password_baru') {{ $message }} @enderror</span>
+                        <div class="form-group row">
+                            <label for="password_baru" class="font-weight-bold col-form-label col-3 text-left">Password Baru</label>
+                            <div class="col-9">
+                                <input type="password" name="password_baru" class="form-control" placeholder="Masukkan password baru">
+                                <span class="text-danger">@error('password_baru') {{ $message }} @enderror</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="password_ulang" class="font-weight-bold col-form-label col-3 text-left">Ulangi Password</label>
+                            <div class="col-9">
+                                <input type="password" name="password_ulang" class="form-control" placeholder="Ulangi Password">
+                                <span class="text-danger">@error('password_baru') {{ $message }} @enderror</span>
+                            </div>
                         </div>
 
                         <div class="form-group">

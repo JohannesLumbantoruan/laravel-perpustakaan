@@ -23,6 +23,7 @@ class AdminController extends Controller
     public function gantiPasswordAksi(Request $request)
     {
         $messages = [
+            'password_lama.required'    => 'Password Lama wajib diisi',
             'password_baru.required'    => 'Password Baru wajib diisi',
             'password_baru.min'         => 'Password minimal 4 karakter',
             'password_baru.max'         => 'Password maksimal 20 karakter',
@@ -31,23 +32,27 @@ class AdminController extends Controller
         ];
 
         $request->validate([
+            'password_lama'     => 'required',
             'password_baru'     => 'required|min:4|max:20',
             'password_ulang'    => 'required|same:password_baru',
         ], $messages);
 
-        $simpan = Admin::where('id', '=', Auth::guard('admin')->user()->id)->update([
-            'password'  => Hash::make($request->password_baru),
-        ]);
-
-        if ($simpan)
+        if (Hash::check($request->password_lama, Auth::guard('admin')->user()->password))
         {
-            Auth::guard('admin')->logout();
+            $simpan = Admin::where('id', '=', Auth::guard('admin')->user()->id)->update([
+                'password'  => Hash::make($request->password_baru),
+            ]);
 
-            return redirect()->route('login')->with('success', 'Password berhasil diubah, silahkan login kembali');
+            if ($simpan)
+            {
+                Auth::guard('admin')->logout();
+    
+                return redirect()->route('login')->with('success', 'Password berhasil diubah, silahkan login kembali');
+            }
         }
         else
         {
-            return back()->with('error', 'Gagal mengganti password, silahkan coba kembali');
+            return back()->with('error', 'Password Lama salah, silahkan coba kembali');
         }
     }
 

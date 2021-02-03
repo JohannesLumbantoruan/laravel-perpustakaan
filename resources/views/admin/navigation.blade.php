@@ -47,8 +47,51 @@
                     Hai, {{ Auth::guard('admin')->user()->username }}
                 </button>
                 <div class="dropdown-menu">
-                    <a href="{{ route('adminGantiPassword') }}" class="dropdown-item"><i class="fa fa-lock"></i> Ganti Password</a>
+                    <a href="#gantiPassword" class="dropdown-item" data-toggle="modal" data-target="#gantiPassword"><i class="fa fa-lock"></i> Ganti Password</a>
                     <a href="{{ route('adminLogout') }}" class="dropdown-item"><i class="fa fa-power-off"></i> Logout</a>
+                </div>
+                <div class="modal fade" id="gantiPassword">
+                    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title font-weight-bold">Ganti Password</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('adminGantiPasswordAksi') }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                    <div class="form-group row">
+                                        <label for="password_lama" class="font-weight-bold col-form-label col-3 text-left">Password Lama</label>
+                                        <div class="col-9">
+                                            <input type="password" name="password_lama" class="form-control" placeholder="Password Lama" required oninvalid="this.setCustomValidity('Masukkan password lama')" onchange="this.setCustomValidity('')">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="password_baru" class="font-weight-bold col-form-label col-3 text-left">Password Baru</label>
+                                        <div class="col-9">
+                                            <input type="password" name="password_baru" class="form-control" placeholder="Masukkan password baru" required oninvalid="this.setCustomValidity('Masukkan password baru')" onchange="this.setCustomValidity('')">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="password_ulang" class="font-weight-bold col-form-label col-3 text-left">Ulangi Password</label>
+                                        <div class="col-9">
+                                            <input type="password" name="password_ulang" class="form-control" placeholder="Ulangi Password" required oninvalid="this.setCustomValidity('Ulangi password')" onchange="this.setCustomValidity('')">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary btn-block" value="Ubah Password">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
