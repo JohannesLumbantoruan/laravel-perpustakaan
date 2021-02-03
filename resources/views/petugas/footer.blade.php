@@ -1,6 +1,4 @@
-<div class="footer bg-dark text-white text-center mt-5">
-    <br> SISTEM INFORMASI PERPUSTAKAAN CREATE WITH LARAVEL<br>
-    By Johannes Lumbantoruan <br>
-    @2021
-    <br><br>
-</div>
+<footer class="bg-dark text-center text-white mt-3" id="footer">
+    SI Perpustakaan created by Johannes Lumbantoruan <br>
+    @2021 with Laravel
+</footer>

@@ -40,10 +40,8 @@
                         </div>
                     </div>
                 </div>
-                <br>
 
-                <a href="{{ route('cetakLaporan') }}" class="btn btn-primary"><i class="fa fa-print"></i> Cetak</a>
-                <br><br>
+                <a href="{{ route('cetakLaporan') }}" class="btn btn-primary my-3"><i class="fa fa-print"></i> Cetak</a>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">

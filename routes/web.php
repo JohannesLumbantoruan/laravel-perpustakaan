@@ -34,6 +34,7 @@ Route::middleware('auth:admin')->group(function()
     Route::get('/admin/petugas/cari', [AdminController::class, 'cariPetugas'])->name('cariPetugas');
     Route::get('/admin/hapus_petugas/{id}', [AdminController::class, 'hapusPetugas'])->name('hapusPetugas');
     Route::get('/admin/buku', [AdminController::class, 'showBuku'])->name('adminShowBuku');
+    Route::get('/admin/buku/cari', [AdminController::class, 'cariBuku'])->name('adminCariBuku');
     Route::get('/admin/tambah_buku', [AdminController::class, 'tambahBuku'])->name('adminTambahBuku');
     Route::post('/admin/tambah_buku/aksi', [AdminController::class, 'tambahBukuAksi'])->name('adminTambahBukuAksi');
     Route::get('/admin/edit_buku/{id}', [AdminController::class, 'editBuku'])->name('adminEditBuku');
@@ -74,6 +75,7 @@ Route::middleware('auth:petugas')->group(function()
     Route::put('/petugas/edit_buku_aksi/{id}', [PetugasController::class, 'editBukuAksi'])->name('editBukuAksi');
     Route::get('/petugas/hapus_buku/{id}', [PetugasController::class, 'hapusBuku'])->name('hapusBuku');
     Route::get('/petugas/peminjaman', [PetugasController::class, 'showPeminjaman'])->name('showPeminjaman');
+    Route::get('/petugas/peminjaman/cari', [PetugasController::class, 'cariPeminjaman'])->name('cariPeminjaman');
     Route::get('/petugas/tambah_peminjaman', [PetugasController::class, 'tambahPeminjaman'])->name('tambahPeminjaman');
     Route::post('/petugas/tambah_peminjaman_aksi', [PetugasController::class, 'tambahPeminjamanAksi'])->name('tambahPeminjamanAksi');
     Route::get('/petugas/batalkan_peminjaman/{id}', [PetugasController::class, 'batalkanPeminjaman'])->name('batalkanPeminjaman');

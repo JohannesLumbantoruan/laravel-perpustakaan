@@ -24,6 +24,9 @@
     <!-- fontawesome -->
     <link rel="stylesheet" href="{{ asset('css/all.css') }}">
     <script src="{{ asset('js/all.js') }}"></script>
+
+    <!-- css -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 @yield('content')
 </html>

@@ -11,32 +11,38 @@
                 <h2 class="text-center font-weight-bold">Tambah Buku</h2>
             </div>
             <div class="card-body">
-                <a href="{{ route('showBuku') }}" class="btn btn-light btn-outline-dark float-right"><i class="fa fa-arrow-left"></i> Kembali</a>
-                <br>
-
                 <form action="{{ route('tambahBukuAksi') }}" method="POST">
                 @csrf
-                    <div class="form-group">
-                        <label for="judul" class="font-weight-bold">Judul Buku</label>
-                        <input type="text" name="judul" class="form-control" placeholder="Masukkkan judul buku">
-                        <span class="text-danger">@error('judul') {{ $message }} @enderror</span>
+                    <a href="{{ route('showBuku') }}" class="btn btn-light btn-outline-dark float-right"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    <br><br>
+
+                    <div class="form-group row">
+                        <label for="judul" class="font-weight-bold col-form-label col-sm-2 text-left">Judul Buku</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="judul" class="form-control" placeholder="Masukkkan judul buku">
+                            <span class="text-danger">@error('judul') {{ $message }} @enderror</span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="tahun" class="font-weight-bold">Tahun Terbit</label>
-                        <select name="tahun" class="form-control">
-                            <option value="">- Pilih Tahun</option>
-                            <?php for($tahun=date('Y'); $tahun>=1990; $tahun--) { ?>
-                            <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
-                            <?php } ?>
-                        </select>
-                        <span class="text-danger">@error('tahun') {{ $message }} @enderror</span>
+                    <div class="form-group row">
+                        <label for="tahun" class="font-weight-bold col-form-label col-sm-2 text-left">Tahun Terbit</label>
+                        <div class="col-sm-10">
+                            <select name="tahun" class="form-control">
+                                <option value="">- Pilih Tahun</option>
+                                <?php for($tahun=date('Y'); $tahun>=1990; $tahun--) { ?>
+                                <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
+                                <?php } ?>
+                            </select>
+                            <span class="text-danger">@error('tahun') {{ $message }} @enderror</span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label for="penulis" class="font-weight-bold">Penulis Buku</label>
-                        <input type="text" name="penulis" class="form-control" placeholder="Masukkan nama penulis">
-                        <span class="text-danger">@error('penulis') {{ $message }} @enderror</span>
+                    <div class="form-group row">
+                        <label for="penulis" class="font-weight-bold col-sm-2 col-form-label text-left">Penulis Buku</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="penulis" class="form-control" placeholder="Masukkan nama penulis">
+                            <span class="text-danger">@error('penulis') {{ $message }} @enderror</span>
+                        </div>
                     </div>
 
                     <div class="form-group">

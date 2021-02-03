@@ -164,6 +164,14 @@ class AdminController extends Controller
         return view('admin.buku', ['buku' => $buku]);
     }
 
+    public function cariBuku(Request $request)
+    {
+        $cari = $request->cari;
+        $buku = Buku::where('judul', 'like', "%".$cari."%")->paginate(10);
+
+        return view('admin.buku', compact('buku'));
+    }
+
     public function tambahBuku()
     {
         return view('admin.tambah_buku');

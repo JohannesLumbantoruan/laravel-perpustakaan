@@ -23,18 +23,68 @@
                     </div>
                 @endif
 
-                <form action="{{ route('cariBuku') }}" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="cari" class="form-control" placeholder="Cari Judul Buku" value="{{ old('cari') }}">
-                        <button type="submit" class="btn btn-light">
-                            <span><i class="fa fa-search"></i></span>
-                        </button>
-                    </div>
-                </form>
-                <br>
+                <div class="clearfix mb-3">
+                    <form action="{{ route('cariBuku') }}" method="GET">
+                        <div class="btn-group float-left">
+                            <input type="text" name="cari" class="form-control" placeholder="Cari Judul Buku" value="{{ old('cari') }}" style="width: 300px">
+                            <button type="submit" class="btn btn-light">
+                                <span><i class="fa fa-search"></i></span>
+                            </button>
+                        </div>
+                    </form>
 
-                <a href="{{ route('tambahBuku') }}" class="btn btn-success float-right"><i class="fa fa-plus"></i> Tambah Buku</a>
-                <br><br>
+                    <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#tambahBuku">
+                        <span><i class="fa fa-plus"></i> Tambah Buku</span>
+                    </button>
+                    <div class="modal fade" id="tambahBuku">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Tambah Buku</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('tambahBukuAksi') }}" method="POST">
+                                    @csrf
+                                        <div class="form-group row">
+                                            <label for="judul" class="font-weight-bold col-form-label col-2 text-left">Judul Buku</label>
+                                            <div class="col-10">
+                                                <input type="text" name="judul" class="form-control" placeholder="Masukkkan judul buku" required oninvalid="this.setCustomValidity('Judul buku wajib diisi')" onchange="this.setCustomValidity('')">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="tahun" class="font-weight-bold col-form-label col-2 text-left">Tahun Terbit</label>
+                                            <div class="col-10">
+                                                <select name="tahun" class="form-control" required oninvalid="this.setCustomValidity('Tahun penerbitan wajib diisi')" onchange="this.setCustomValidity('')">
+                                                    <option value="">- Pilih Tahun</option>
+                                                    <?php for($tahun=date('Y'); $tahun>=1990; $tahun--) { ?>
+                                                    <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="penulis" class="font-weight-bold col-form-label col-2 text-left">Penulis Buku</label>
+                                            <div class="col-10">
+                                                <input type="text" name="penulis" class="form-control" placeholder="Masukkan nama penulis" required oninvalid="this.setCustomValidity('Nama penulis wajib diisi')" onchange="this.setCustomValidity('')">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <input type="submit" class="btn btn-primary btn-block" value="Tambah">
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
@@ -76,11 +126,6 @@
                             @endforeach
                         </tbody>
                     </table>
-
-                    <p class="text-center">Halaman: {{ $buku->currentPage() }} <br>
-                    Jumlah Data: {{ $buku->total() }} <br>
-                    Data per Halaman: {{ $buku->perPage() }} <br></p>
-
                     <div class="d-flex justify-content-center mt-2">
                         {{ $buku->links() }}
                     </div>

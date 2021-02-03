@@ -76,5 +76,7 @@
             </div>
         </div>
     </div>
+
+    @include('petugas.footer')
 </body>
 @endsection

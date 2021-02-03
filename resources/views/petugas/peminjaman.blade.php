@@ -24,8 +24,64 @@
                     </div>
                 @endif
 
-                <a href="{{ route('tambahPeminjaman') }}" class="btn btn-success float-right"><i class="fa fa-plus"></i> Tambah Peminjaman</a>
-                <br><br>
+                <button type="button" class="btn btn-success float-right mb-2" data-toggle="modal" data-target="#tambahPeminjaman">
+                    <span><i class="fa fa-plus"></i> Tambah Peminjaman</span>
+                </button>
+                <div class="modal fade" id="tambahPeminjaman">
+                    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title font-weight-bold">Tambah Peminjaman</h5>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                            <form action="{{ route('tambahPeminjamanAksi') }}" method="POST">
+                                @csrf
+                                    <div class="form-group">
+                                        <label for="buku" class="font-weight-bold">Buku</label>
+                                        <select name="buku" class="form-control">
+                                            <option value="">- Pilih Buku</option>
+                                            @foreach ($buku as $b)
+                                            <option value="{{ $b->id }}">{{  $b->judul." | ".$b->tahun." | ".$b->penulis}}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger">@error('buku') {{ $message }} @enderror</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="anggota" class="font-weight-bold">Anggota</label>
+                                        <select name="anggota" class="form-control">
+                                            <option value="">- Pilih Anggota</option>
+                                            @foreach ($anggota as $a)
+                                            <option value="{{ $a->id }}">{{ $a->nama." | NIK: ".$a->nik }}</option>
+                                            @endforeach
+                                        </select>
+                                        <span class="text-danger">@error('anggota') {{ $message }} @enderror</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tanggal_mulai" class="font-weight-bold">Tanggal Mulai Pinjam</label>
+                                        <input type="date" name="tanggal_mulai" class="form-control" placeholder="Masukkan tanggal mulai pinjam">
+                                        <span class="text-danger">@error('tanggal_mulai') {{ $message }} @enderror</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="tanggal_selesai" class="font-weight-bold">Tanggal Akhir Peminjaman</label>
+                                        <input type="date" name="tanggal_selesai" class="form-control" placehoder="Masukkan tanggal akhir peminjaman">
+                                        <span class="text-danger">@error('tanggal_selesai') {{ $message }} @enderror</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="submit" class="btn btn-primary btn-block" value="Tambah">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">

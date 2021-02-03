@@ -13,8 +13,7 @@
                     <h2 class="font-weight-bold text-center">TAMBAH BUKU</h2>
                 </div>
                 <div class="card-body">
-                    <a href="{{ route('adminShowBuku') }}" class="btn btn-light btn-outline-dark float-right"><i class="fa fa-arrow-left"></i> Kembali</a>
-                    <br><br>
+                    <a href="{{ route('adminShowBuku') }}" class="btn btn-light btn-outline-dark float-right mb-3"><i class="fa fa-arrow-left"></i> Kembali</a>
 
                     <form action="{{ route('adminTambahBukuAksi') }}" method="POST">
                     @csrf

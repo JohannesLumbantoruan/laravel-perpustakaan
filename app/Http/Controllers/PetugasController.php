@@ -270,8 +270,10 @@ class PetugasController extends Controller
     public function showPeminjaman()
     {
         $peminjaman = Peminjaman::paginate(10);
+        $buku = Buku::where('status', 1)->get();
+        $anggota = Anggota::all();
 
-        return view('petugas.peminjaman', ['peminjaman' => $peminjaman]);
+        return view('petugas.peminjaman', compact('peminjaman', 'buku', 'anggota'));
     }
 
     public function tambahPeminjaman()
@@ -288,7 +290,7 @@ class PetugasController extends Controller
             'buku.required'             => 'Pilih buku yang ingin dipinjam',
             'anggota.required'          => 'Pilih anggota yang ingin meminjam',
             'tanggal_mulai.required'    => 'Tanggal mulai peminjaman wajib diisi',
-            'tanggal_akhir.required'    => 'Tanggal akhir peminjaman wajib diisi',
+            'tanggal_selesai.required'  => 'Tanggal selesai peminjaman wajib diisi',
         ];
 
         $request->validate([
