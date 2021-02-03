@@ -15,7 +15,18 @@ class LoginController extends Controller
 {
     public function getLogin()
     {
-        return view('login');
+        if (Auth::guard('admin')->check())
+        {
+            return redirect()->route('adminDashboard');
+        }
+        elseif(Auth::guard('petugas')->check())
+        {
+            return redirect()->route('petugasDashboard');
+        }
+        else
+        {
+            return view('login');
+        }
     }
 
     public function postLogin(Request $request)
