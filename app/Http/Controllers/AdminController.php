@@ -39,15 +39,22 @@ class AdminController extends Controller
 
         if (Hash::check($request->password_lama, Auth::guard('admin')->user()->password))
         {
-            $simpan = Admin::where('id', '=', Auth::guard('admin')->user()->id)->update([
-                'password'  => Hash::make($request->password_baru),
-            ]);
-
-            if ($simpan)
+            if (Hash::check($request->password_baru, Auth::guard('admin')->user()->password))
             {
-                Auth::guard('admin')->logout();
+                return redirect()->route('adminGantiPassword')->with('error', 'Password baru tidak boleh sama dengan password lama');
+            }
+            else
+            {
+                $simpan = Admin::where('id', '=', Auth::guard('admin')->user()->id)->update([
+                    'password'  => Hash::make($request->password_baru),
+                ]);
     
-                return redirect()->route('login')->with('success', 'Password berhasil diubah, silahkan login kembali');
+                if ($simpan)
+                {
+                    Auth::guard('admin')->logout();
+        
+                    return redirect()->route('login')->with('success', 'Password berhasil diubah, silahkan login kembali');
+                }
             }
         }
         else

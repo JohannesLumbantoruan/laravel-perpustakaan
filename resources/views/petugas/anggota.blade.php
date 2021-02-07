@@ -26,8 +26,8 @@
                 <div class="clearfix mb-3">
                     <form action="{{ route('cariAnggota') }}" method="GET">
                         <div class="btn-group float-left">
-                            <input type="text" name="cari" class="form-control" placeholder="Cari Anggota" value="{{ old('cari') }}" style="width: 300px">
-                            <button type="submit" class="btn btn-light">
+                            <input type="text" name="cari" class="form-control" placeholder="Cari Anggota" value="{{ old('cari') }}" id="search">
+                            <button type="submit" class="btn btn-secondary">
                                 <span><i class="fa fa-search"></i></span>
                             </button>
                         </div>

@@ -38,13 +38,20 @@ class PetugasController extends Controller
 
         if (Hash::check($request->password_lama, Auth::guard('petugas')->user()->password))
         {
-            $simpan = Petugas::where('id', '=', Auth::guard('petugas')->user()->id)->update(['password' => Hash::make($request->password_baru),]);
-
-            if ($simpan)
+            if (Hash::check($request->password_baru, Auth::guard('petugas')->user()->password))
             {
-                Auth::guard('petugas')->logout();
+                return redirect()->route('petugasGantiPassword')->with('error', 'Password baru tidak boleh sama dengan password lama');
+            }
+            else
+            {
+                $simpan = Petugas::where('id', '=', Auth::guard('petugas')->user()->id)->update(['password' => Hash::make($request->password_baru),]);
 
-                return redirect()->route('login')->with('success', 'Password berhasil diganti, silahkan login kembali');
+                if ($simpan)
+                {
+                    Auth::guard('petugas')->logout();
+    
+                    return redirect()->route('login')->with('success', 'Password berhasil diganti, silahkan login kembali');
+                }
             }
         }
         else

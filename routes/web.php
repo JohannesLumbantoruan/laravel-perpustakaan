@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\KatalogController;
+use App\Http\Controllers\UploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +19,12 @@ use App\Http\Controllers\PetugasController;
 |
 */
 
-Route::get('/', [LoginController::class, 'getLogin'])->name('login');
+Route::get('/', [LoginController::class, 'home'])->name('home');
+Route::get('/login', [LoginController::class, 'getLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'postLogin'])->name('loginAksi');
+Route::get('/katalog', [KatalogController::class, 'katalog'])->name('katalog');
+Route::get('/katalog/tambah', [KatalogController::class, 'tambahKatalog'])->name('tambahKatalog');
+Route::post('/katalog/tambah', [KatalogController::class, 'tambahKatalogAksi'])->name('tambahKatalogAksi');
 
 Route::middleware('auth:admin')->group(function()
 {

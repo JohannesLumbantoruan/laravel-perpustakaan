@@ -26,8 +26,8 @@
                 <div class="clearfix mb-3">
                     <form action="{{ route('cariBuku') }}" method="GET">
                         <div class="btn-group float-left">
-                            <input type="text" name="cari" class="form-control" placeholder="Cari Judul Buku" value="{{ old('cari') }}" style="width: 300px">
-                            <button type="submit" class="btn btn-light">
+                            <input type="text" name="cari" class="form-control" placeholder="Cari Judul Buku" value="{{ old('cari') }}" id="search">
+                            <button type="submit" class="btn btn-secondary">
                                 <span><i class="fa fa-search"></i></span>
                             </button>
                         </div>
@@ -44,38 +44,52 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('tambahBukuAksi') }}" method="POST">
-                                    @csrf
-                                        <div class="form-group row">
-                                            <label for="judul" class="font-weight-bold col-form-label col-2 text-left">Judul Buku</label>
-                                            <div class="col-10">
-                                                <input type="text" name="judul" class="form-control" placeholder="Masukkkan judul buku" required oninvalid="this.setCustomValidity('Judul buku wajib diisi')" onchange="this.setCustomValidity('')">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <form action="{{ route('tambahBukuAksi') }}" method="POST">
+                                            @csrf
+                                                <div class="form-group row">
+                                                    <label for="judul" class="font-weight-bold col-form-label col-2 text-left">Judul Buku</label>
+                                                    <div class="col-10">
+                                                        <input type="text" name="judul" class="form-control" placeholder="Masukkkan judul buku" required oninvalid="this.setCustomValidity('Judul buku wajib diisi')" onchange="this.setCustomValidity('')">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="tahun" class="font-weight-bold col-form-label col-2 text-left">Tahun Terbit</label>
+                                                    <div class="col-10">
+                                                        <select name="tahun" class="form-control" required oninvalid="this.setCustomValidity('Tahun penerbitan wajib diisi')" onchange="this.setCustomValidity('')">
+                                                            <option value="">- Pilih Tahun</option>
+                                                            <?php for($tahun=date('Y'); $tahun>=1990; $tahun--) { ?>
+                                                            <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label for="penulis" class="font-weight-bold col-form-label col-2 text-left">Penulis Buku</label>
+                                                    <div class="col-10">
+                                                        <input type="text" name="penulis" class="form-control" placeholder="Masukkan nama penulis" required oninvalid="this.setCustomValidity('Nama penulis wajib diisi')" onchange="this.setCustomValidity('')">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <input type="submit" class="btn btn-primary btn-block" value="Tambah">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="form-group">
+                                                    <label for="cover" class="font-weight-bold">Pilih cover buku:</label>
+                                                    <input type="file" name="cover">
+                                                </div>
+                                                </div>
                                             </div>
                                         </div>
-
-                                        <div class="form-group row">
-                                            <label for="tahun" class="font-weight-bold col-form-label col-2 text-left">Tahun Terbit</label>
-                                            <div class="col-10">
-                                                <select name="tahun" class="form-control" required oninvalid="this.setCustomValidity('Tahun penerbitan wajib diisi')" onchange="this.setCustomValidity('')">
-                                                    <option value="">- Pilih Tahun</option>
-                                                    <?php for($tahun=date('Y'); $tahun>=1990; $tahun--) { ?>
-                                                    <option value="<?php echo $tahun; ?>"><?php echo $tahun; ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label for="penulis" class="font-weight-bold col-form-label col-2 text-left">Penulis Buku</label>
-                                            <div class="col-10">
-                                                <input type="text" name="penulis" class="form-control" placeholder="Masukkan nama penulis" required oninvalid="this.setCustomValidity('Nama penulis wajib diisi')" onchange="this.setCustomValidity('')">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <input type="submit" class="btn btn-primary btn-block" value="Tambah">
-                                        </div>
-                                    </form>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close

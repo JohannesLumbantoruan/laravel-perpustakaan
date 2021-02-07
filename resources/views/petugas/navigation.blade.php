@@ -40,6 +40,9 @@
                 <li class="nav-item">
                     <a href="{{ route('laporanPeminjaman') }}" class="nav-link"><i class="fa fa-file-alt"></i> Laporan Peminjaman</a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('katalog') }}" class="nav-link"><i class="fa fa-th-list"></i> Katalog</a>
+                </li>
             </ul>
 
             <div class="dropdown">

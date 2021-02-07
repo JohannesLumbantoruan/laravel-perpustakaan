@@ -8,11 +8,19 @@ use App\Models\Petugas;
 use App\Models\Peminjaman;
 use App\Models\Buku;
 use App\Models\Anggota;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Katalog;
+use Hash;
+use Auth;
 
 class LoginController extends Controller
 {
+    public function home()
+    {
+        $katalog = Katalog::all();
+
+        return view('perpustakaan', compact('katalog'));
+    }
+
     public function getLogin()
     {
         if (Auth::guard('admin')->check())
