@@ -3,14 +3,18 @@
 @section('title', 'Login Sistem Informasi Perpustakaan')
 
 @section("content")
-<body class="bg-dark">
+<body style="background-image: url(/assets/bg-content.svg);">
+
     <div class="container">
-        <br><br><br><br>
-
-        <h3 class="font-weight-bold text-center text-white">SISTEM INFORMASI</h3>
-        <h2 class="font-weight-bold text-center text-white mb-5"><b>PERPUSTAKAAN</b></h2>
-
-        <div class="col-md-4 offset-md-4">
+        <div class="judul">
+            <h3 class="font-weight-bold text-center">SISTEM INFORMASI</h3>
+            <h2 class="font-weight-bold text-center mb-5"><b>PERPUSTAKAAN</b></h2>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4" id="login-row">
+                <img src="{{ asset('assets/content-vector.svg') }}" alt="" id="bg-login">
+            </div>
+            <div class="col-md-4" id="login-row">
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route('loginAksi') }}" method="POST">
@@ -53,6 +57,7 @@
                     </form>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 </body>

@@ -16,8 +16,11 @@ class CreateAnggota extends Migration
         Schema::create('anggota', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->integer('nik');
+            $table->bigInteger('no_hp');
+            $table->string('jumlah_peminjaman')->nullable();
+            $table->string('jumlah_dipinjam')->nullable();
             $table->text('alamat');
+            $table->string('foto');
             $table->timestamps();
         });
     }

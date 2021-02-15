@@ -10,6 +10,9 @@
 
     <!-- jquery -->
     <script src="{{ asset('js/jquery.js') }}"></script>
+
+    <!-- javascript -->
+    <script src="{{ asset('js/perpustakaan.js') }}"></script>
     
     <!-- datatable -->
     <link rel="stylesheet" href="{{ asset('css/dataTables.bootstrap.css') }}">

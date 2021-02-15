@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary mb-2">
     <div class="container">
-        <a href="{{ route('adminDashboard') }}" class="navbar-brand">SI PERPUSTAKAAN</a>
+        <a href="{{ route('adminDashboard') }}" class="navbar-brand" id="brand">SI PERPUSTAKAAN</a>
 
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="navbar-nav mr-auto" id="navigation-left">
                 <li class="nav-item">
                     <a href="{{ route('adminDashboard') }}" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
                 </li>
@@ -39,6 +39,9 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('adminLaporanPeminjaman') }}" class="nav-link"><i class="fa fa-book"></i> Laporan Peminjaman</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('adminKatalog') }}" class="nav-link"><i class="fa fa-th-list"></i> Katalog Buku</a>
                 </li>
             </ul>
 

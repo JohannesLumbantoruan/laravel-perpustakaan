@@ -109,7 +109,8 @@
                                 <th>Tahun Terbit</th>
                                 <th>Penulis</th>
                                 <th width="7%">Status</th>
-                                <th width="15%">OPSI</th>
+                                <th width="1%">Stock</th>
+                                <th width="20%">OPSI</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -132,14 +133,32 @@
                                     }
                                     ?>
                                 </td>
+                                <td><b>{{ $b->jumlah }}</b></td>
                                 <td>
                                     <a href="/petugas/edit_buku/{{ $b->id }}" class="btn btn-sm btn-warning"><i class="fa fa-wrench"></i> Edit</a>
                                     <a href="/petugas/hapus_buku/{{ $b->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                    <a href="#" class="btn btn-sm btn-info modal_buku" data-toggle="modal" data-target="#detail" id="{{ $b->id }}"><i class="fa fa-book"></i> Detail</a>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+
+                    <div class="modal fade" id="detail">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Detail Buku</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" id="detail_buku">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="d-flex justify-content-center mt-2">
                         {{ $buku->links() }}
                     </div>
@@ -149,5 +168,23 @@
     </div>
 
     @include('petugas.footer')
+
+    <script>
+    $(document).ready(function() {
+        $(".modal_buku").click(function() {
+            var id = $(this).attr("id");
+
+            $.ajax({
+                url: 'buku/detail/'+ id,
+                method: 'GET',
+                data: {id:id},
+                success:function(data) {
+                    $("#detail_buku").html(data);
+                    $("#detail").modal("show");
+                }
+            })
+        })
+    })
+    </script>
 </body>
 @endsection

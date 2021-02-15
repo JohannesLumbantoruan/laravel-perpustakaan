@@ -14,7 +14,7 @@ class CreatePeminjaman extends Migration
     public function up()
     {
         Schema::create('peminjaman', function (Blueprint $table) {
-            $table->bigInteger('peminjaman_id');
+            $table->increments('peminjaman_id');
             $table->integer('peminjaman_buku');
             $table->integer('peminjaman_anggota');
             $table->date('peminjaman_tanggal_mulai');

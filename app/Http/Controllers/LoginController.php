@@ -16,9 +16,16 @@ class LoginController extends Controller
 {
     public function home()
     {
-        $katalog = Katalog::all();
+        $buku = Buku::all();
 
-        return view('perpustakaan', compact('katalog'));
+        return view('perpustakaan', compact('buku'));
+    }
+
+    public function katalog()
+    {
+        $buku = Buku::all();
+
+        return view('katalog', compact('buku'));
     }
 
     public function getLogin()

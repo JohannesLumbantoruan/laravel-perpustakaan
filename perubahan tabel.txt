@@ -1,0 +1,34 @@
+Perubahan Table
+
+1. Table buku:
+-Kategori (buku_kategori)
+-ISBN
+-Jumlah Halaman
+-Jumlah Buku (Stock)
+-Deskripsi/Sinopsis
+-Penerbit (buku_penerbit)
+-Cover Buku
+
+2. Table anggota:
+-Foto Anggota
+-No. HP
+-Jumlah Peminjaman
+-Jumlah Buku yang sedang dipinjam
+
+3. Table Petugas
+-Foto Petugas
+-No. HP
+
+Penambahan Table
+
+1. Table Kategori
+-kategori_id
+-kategori_buku
+
+2. Table Jenis_Kategori
+-jenis_id
+-jenis_kategori
+
+2. Table Penerbit
+-penerbit_id
+-penerbit_nama

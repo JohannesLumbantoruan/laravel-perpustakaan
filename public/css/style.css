@@ -1,72 +1,169 @@
 footer{
     position: relative;
-    bottom: 0;
-    top: 40px;
     width: 100%;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    margin-top: 20px;
+    padding-top: 10px;
 }
 .card-title{
-    min-height: 30px;
+    min-height: 50px;
 }
 .card-text {
     min-height: 50px;
 }
 
 #bg-home{
-    right: 0px;
+    top: 0;
+    right: 0;
 }
 
 #bg-home2{
+    top: 0;
     right: 200px;
 }
 
-.nav-left{
+#nav-left li a{
     color: black;
-    font-size: 12pt;
-    font-weight: 400;
+}
+
+#nav-left li a:hover{
+    color: blue;
+    font-size: 14pt;
+    font-weight: 500;
 }
 
 #nav-right li a{
     color: white;
     font-size: 14pt;
     font-weight: 600;
-    border-bottom: 3px solid white;
 }
 
 #nav-right li a:hover{
     color: black;
-    transition: 300ms;
-    border-color: black;
-}
-
-#brand{
-    color: white;
-}
-
-#navbar-left li a{
-    color: white;
-}
-
-#search{
-    width: 300px;
-}
-
-#brand:hover{
-    color: black;
-    transition: 500ms;
-}
-
-#navbar-left li a:hover{
-    color: black;
-    transition: 500ms;
-}
-
-#tambahKatalog:hover{
     background-color: white;
-    color: black;
-    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#tambah:hover{
+    background-color: white;
+    color: green;
+    border: solid green;
+    font-weight: 600;
 }
 
 #flex a{
     font-size: 16pt;
     font-weight: 700;
+}
+
+#btn_login:hover{
+    color: green;
+    border: solid green;
+    background-color: white;
+}
+
+#btn_daftar:hover{
+    color: blue;
+    border: solid blue;
+    background-color: white;
+}
+
+#katalog-navbar-left li a:hover{
+    color: white;
+    font-weight: 500;
+    font-size:  14pt;
+}
+
+#katalog-nav-right li a{
+    font-size: 14pt;
+    font-weight: 500;
+}
+
+#katalog-nav-right li a:hover{
+    color: black;
+    font-weight: 600;
+    border-radius: 5px;
+    background-color: white;
+}
+
+#navigation-left li a{
+    color: white;
+}
+
+#navigation-left li a:hover{
+    color: white;
+    font-size: 14pt;
+    font-weight: 600;
+}
+
+#navigation-left li div .dropdown-menu a{
+    color: black;
+}
+
+.card-header{
+    color: white;
+    background-color:  #007bff;
+}
+
+#bg-content{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    max-width: 100vw;
+}
+
+#landing-2{
+    position: absolute;
+    top: 100%;
+    left: 5%;
+    width: 90%;
+    height: 100vh;
+}
+
+#landing-2 h1{
+    color: white;
+}
+
+body{
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#bg-login{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.judul{
+    color: white;
+    margin-top: 50px;
+}
+
+#login-row{
+    background-color: white;
+}
+
+#login-row .card{
+    border: none;
+}
+
+#brand{
+    color: white;
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+.link{
+    color: black;
+}
+
+a:link{
+    text-decoration: none;
 }

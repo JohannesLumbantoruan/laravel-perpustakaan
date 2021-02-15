@@ -8,10 +8,13 @@ use App\Models\Petugas;
 use App\Models\Anggota;
 use App\Models\Buku;
 use App\Models\Peminjaman;
+use App\Models\Katalog;
+use App\Models\Kategori;
 use Hash;
 use Auth;
 use Validator;
 use Session;
+use File;
 
 class AdminController extends Controller
 {
@@ -87,18 +90,34 @@ class AdminController extends Controller
             'password.required' => 'Password wajib diisi',
             'password.min'      => 'Password minimal 4 karakter',
             'password.max'      => 'Password maksimal 20 karakter',
+            'no_hp.required'    => 'No. HP wajib diisi',
+            'no_hp.numeric'     => 'No. HP harus berupa angka',
+            'foto.required'     => 'Foto petugas wajib diisi',
+            'foto.file'         => 'Foto harus berupa file',
+            'foto.image'        => 'Foto harus berupa image',
+            'foto.mimes'        => 'Foto harus berekstensi jpeg, jpg dan png',
+            'foto.max'          => 'Ukuran maksimal 2048',
         ];
 
         $request->validate([
             'nama'      => 'required|min:4|max:30',
             'username'  => 'required|min:4|max:10',
             'password'  => 'required|min:4|max:20',
+            'no_hp'     => 'required|numeric',
+            'foto'      => 'required|file|image|mimes:jpeg,jpg,png|max:2048',
         ], $messages);
+
+        $foto = $request->file('foto');
+        $tempat_upload = 'petugas';
+        $nama_foto = date('d-m-y') ."_". $foto->getClientOriginalName();
+        $foto->move($tempat_upload, $nama_foto);
 
         $petugas = new Petugas;
         $petugas->nama = $request->nama;
         $petugas->username = $request->username;
         $petugas->password = Hash::make($request->password);
+        $petugas->no_hp = $request->no_hp;
+        $petugas->foto = $nama_foto;
         $simpan = $petugas->save();
 
         if ($simpan)
@@ -156,6 +175,7 @@ class AdminController extends Controller
     public function hapusPetugas($id)
     {
         $petugas = Petugas::find($id);
+        File::delete('petugas/'. $petugas->foto);
         $petugas->delete();
 
         return redirect()->route('showPetugas')->with('success', 'Petugas berhasil dihapus');
@@ -171,9 +191,10 @@ class AdminController extends Controller
 
     public function showBuku()
     {
+        $kategori = Kategori::all();
         $buku = Buku::paginate(10);
 
-        return view('admin.buku', ['buku' => $buku]);
+        return view('admin.buku', compact('buku', 'kategori'));
     }
 
     public function cariBuku(Request $request)
@@ -186,27 +207,59 @@ class AdminController extends Controller
 
     public function tambahBuku()
     {
-        return view('admin.tambah_buku');
+        $kategori = Kategori::all();
+
+        return view('admin.tambah_buku', compact('kategori'));
     }
     
     public function tambahBukuAksi(Request $request)
     {
         $messages = [
-            'judul.required'    => 'Judul buku wajib diisi',
-            'tahun.required'    => 'Tahun penerbitan buku wajib diisi',
-            'penulis.required'  => 'Nama penulis buku wajib diisi',
+            'judul.required'        => 'Judul buku wajib diisi',
+            'isbn.required'         => 'No. ISBN wajib diisi',
+            'tahun.required'        => 'Tahun penerbitan buku wajib diisi',
+            'penulis.required'      => 'Nama penulis buku wajib diisi',
+            'kategori.required'     => 'Kategori buku wajib dipilih',
+            'jumlah.required'       => 'Jumlah(stock) buku wajib diisi',
+            'jumlah.numeric'        => 'Jumlah(stock) buku harus berupa angka',
+            'deskripsi.required'    => 'Deskripsi/sinopsis buku wajib diisi',
+            'deskripsi.min'         => 'Deskripsi/sinopsis buku minimal 50 karakter',
+            'deskripsi.max'         => 'Deskripsi/sinopsis buku maksimal 1000 karakter',
+            'penerbit.required'     => 'Penerbit buku wajib diisi',
+            'cover.required'        => 'Cover buku wajib dipilih',
+            'cover.file'            => 'Cover buku harus berupa file',
+            'cover.image'           => 'Cover buku harus berupa image',
+            'cover.mimes'           => 'Cover buku harus berekstensi png,jpeg,jpg',
+            'cover.max'             => 'Ukuran cover buku max 2048',
         ];
 
         $request->validate([
             'judul'     => 'required',
+            'isbn'      => 'required',
             'tahun'     => 'required',
             'penulis'   => 'required',
+            'kategori'  => 'required',
+            'jumlah'    => 'required|numeric',
+            'deskripsi' => 'required|min:50|max:1000',
+            'penerbit'  => 'required',
+            'cover'     => 'required|file|image|mimes:png,jpeg,jpg|max:2048',
         ], $messages);
+
+        $cover = $request->file('cover');
+        $tempat_upload = 'cover';
+        $nama_cover = date('d-m-y') ."_". $cover->getClientOriginalName();
+        $cover->move($tempat_upload, $nama_cover);
 
         $buku = new Buku;
         $buku->judul = $request->judul;
+        $buku->isbn = $request->isbn;
         $buku->tahun = $request->tahun;
         $buku->penulis = $request->penulis;
+        $buku->kategori = $request->kategori;
+        $buku->jumlah = $request->jumlah;
+        $buku->deskripsi = $request->deskripsi;
+        $buku->penerbit = $request->penerbit;
+        $buku->cover = $nama_cover;
         $buku->status = 1;
         $simpan = $buku->save();
 
@@ -261,9 +314,17 @@ class AdminController extends Controller
     public function hapusBuku($id)
     {
         $buku = Buku::find($id);
+        File::delete('cover/'. $buku->cover);
         $buku->delete();
 
         return redirect()->back()->with('success', 'Buku berhasil dihapus');
+    }
+
+    public function detailBuku($id)
+    {
+        $buku = Buku::find($id);
+
+        return view('admin.buku_detail', compact('buku'));
     }
 
     public function showAnggota()
@@ -284,24 +345,34 @@ class AdminController extends Controller
             'nama.required'     => 'Nama anggota wajib diisi',
             'nama.min'          => 'Nama minimal 4 karakter',
             'nama.max'          => 'Nama maksimal 30 karakter',
-            'nik.required'      => 'NIK wajib diisi',
-            'nik.min'           => 'NIK minimal 5 karater',
-            'nik.max'           => 'NIK maksimal 10 karakter',
+            'no_hp.required'    => 'No. HP wajib diisi',
+            'no_hp.numeric'     => 'No. HP harus berupa angka',
             'alamat.required'   => 'Alamat wajib diisi',
             'alamat.min'        => 'Alamat minimal 5 karakter',
             'alamat.max'        => 'Alamat maksimal 50 karakter',
+            'foto.required'     => 'Foto wajib dipilih',
+            'foto.file'         => 'Foto harus berupa file',
+            'foto.mimes'        => 'Foto harus berekstensi png,jpeg,jpg',
+            'foto.max'          => 'Foto berukuran maksimal 2048',
         ];
 
         $request->validate([
             'nama'      => 'required|min:4|max:30',
-            'nik'       => 'required|min:5|max:10',
+            'no_hp'     => 'required|numeric',
             'alamat'    => 'required|min:5|max:50',
+            'foto'      => 'required|file|mimes:png,jpeg,jpg|max:2048',
         ], $messages);
+
+        $foto = $request->file('foto');
+        $tempat_upload = 'anggota';
+        $nama_foto = date('d-m-y') ."_". $foto->getClientOriginalName();
+        $foto->move($tempat_upload, $nama_foto);
 
         $anggota = new Anggota;
         $anggota->nama = $request->nama;
-        $anggota->nik = $request->nik;
+        $anggota->no_hp = $request->no_hp;
         $anggota->alamat = $request->alamat;
+        $anggota->foto = $nama_foto;
         $simpan = $anggota->save();
 
         if ($simpan)
@@ -369,6 +440,7 @@ class AdminController extends Controller
     public function hapusAnggota($id)
     {
         $anggota = Anggota::find($id);
+        File::delete('anggota/'. $anggota->foto);
         $anggota->delete();
 
         return redirect()->route('adminShowAnggota')->with('success', 'Anggota berhasil dihapus');
@@ -379,6 +451,13 @@ class AdminController extends Controller
         $anggota = Anggota::find($id);
 
         return view('admin.kartu_anggota', ['anggota' => $anggota]);
+    }
+
+    public function profilAnggota($id)
+    {
+        $anggota = Anggota::find($id);
+
+        return view('admin.anggota_profil', compact('anggota'));
     }
 
     public function laporanPeminjaman()
@@ -434,5 +513,12 @@ class AdminController extends Controller
 
             return view('admin.cetak_laporan', compact('peminjaman', 'tgl_mulai', 'tgl_sampai'));
         }
+    }
+
+    public function katalog()
+    {
+        $buku = Buku::all();
+
+        return view('admin.katalog', compact('buku'));
     }
 }

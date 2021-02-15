@@ -13,7 +13,7 @@
                     <h2 class="font-weight-bold text-center">TAMBAH ANGGOTA</h2>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('adminTambahAnggotaAksi') }}" method="POST">
+                    <form action="{{ route('adminTambahAnggotaAksi') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                         @if (Session::has('success'))
                             <div class="alert alert-success text-center">
@@ -37,15 +37,21 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="nik" class="font-weight-bold">NIK</label>
-                            <input type="text" name="nik" class="form-control" placeholder="Masukkan NIK" value="{{ old('nik') }}">
-                            <span class="text-danger">@error('nik') {{ $message }} @enderror</span>
+                            <label for="no_hp" class="font-weight-bold">No. HP</label>
+                            <input type="text" name="no_hp" class="form-control" placeholder="Masukkan no. hp" value="{{ old('no_hp') }}">
+                            <span class="text-danger">@error('no_hp') {{ $message }} @enderror</span>
                         </div>
 
                         <div class="form-group">
                             <label for="alamat" class="font-weight-bold">Alamat</label>
                             <input type="text" name="alamat" class="form-control" placeholder="Masukkan alamat" value="{{ old('alamat') }}">
                             <span class="text-danger">@error('alamat') {{ $message }} @enderror</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="foto" class="font-weight-bold">Foto Anggota</label>
+                            <br><input type="file" name="foto">
+                            <br><span class="text-danger">@error('foto') {{ $message }} @enderror</span>
                         </div>
 
                         <div class="form-group">
@@ -56,5 +62,7 @@
             </div>
         </div>
     </div>
+
+    @include('admin.footer')
 </body>
 @endsection

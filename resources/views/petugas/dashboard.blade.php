@@ -3,9 +3,9 @@
 @section('title', 'Dashboard Petugas')
 
 @section('content')
-<body>
+<body class="flex-wrapper">
     @include('petugas.navigation')
-    <div class="container">
+    <div class="container" id="dashboard-petugas">
         <div class="jumbotron text-center">
             <div class="col-lg-8 mx-auto">
                 <h1>Selamat Datang!</h1>
@@ -61,7 +61,7 @@
             </div>
 
             <div class="col-md-3">
-                <div class="card bg-primary text-white">
+                <div class="card bg-info text-white">
                     <div class="card-body">
                         <h1>
                             <i class="fa fa-user"></i>

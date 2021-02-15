@@ -27,12 +27,12 @@
                 <div class="clearfix mb-3">
                     <form action="{{ route('adminCariAnggota') }}" method="GET">
                         <div class="btn-group float-left">
-                            <input type="text" name="cari" class="form-control" placeholder="Cari anggota" value="{{ old('cari') }}" style="width: 300px;">
-                            <button type="button" class="btn btn-light"><i class="fa fa-search"></i></button>
+                            <input type="text" name="cari" class="form-control" placeholder="Cari anggota" value="{{ old('cari') }}" id="search">
+                            <button type="button" class="btn btn-secondary"><i class="fa fa-search"></i></button>
                         </div>
                     </form>
 
-                    <a href="#tambahAnggota" class="btn btn-success float-right" data-toggle="modal" data-target="#tambahAnggota"><i class="fa fa-plus"></i> Tambah Anggota</a>
+                    <a href="#tambahAnggota" class="btn btn-success float-right" data-toggle="modal" data-target="#tambahAnggota" id="tambah"><i class="fa fa-plus"></i> Tambah Anggota</a>
                     <div class="modal fade" id="tambahAnggota">
                         <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
                             <div class="modal-content">
@@ -41,26 +41,33 @@
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="{{ route('adminTambahAnggotaAksi') }}" method="POST">
+                                    <form action="{{ route('adminTambahAnggotaAksi') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                         <div class="form-group row">
-                                            <label for="nama" class="font-weight-bold col-form-label col-2 text-left">Nama</label>
-                                            <div class="col-10">
+                                            <label for="nama" class="font-weight-bold col-form-label col-3 text-left">Nama</label>
+                                            <div class="col-9">
                                                 <input type="text" name="nama" class="form-control" placeholder="Masukkan nama lengkap" value="{{ old('nama') }}" required oninvalid="this.setCustomValidity('Nama wajib diisi')" onchange="this.setCustomValidity('')">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="nik" class="font-weight-bold col-form-label col-2 text-left">NIK</label>
-                                            <div class="col-10">
-                                                <input type="text" name="nik" class="form-control" placeholder="Masukkan NIK" value="{{ old('nik') }}" required oninvalid="this.setCustomValidity('NIK wajib diisi')" onchange="this.setCustomValidity('')">
+                                            <label for="no_hp" class="font-weight-bold col-form-label col-3 text-left">No. HP</label>
+                                            <div class="col-9">
+                                                <input type="text" name="no_hp" class="form-control" placeholder="Masukkan no. hp" value="{{ old('no_hp') }}" required oninvalid="this.setCustomValidity('No. hp wajib diisi')" onchange="this.setCustomValidity('')">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="alamat" class="font-weight-bold col-form-label col-2 text-left">Alamat</label>
-                                            <div class="col-10">
+                                            <label for="alamat" class="font-weight-bold col-form-label col-3 text-left">Alamat</label>
+                                            <div class="col-9">
                                                 <input type="text" name="alamat" class="form-control" placeholder="Masukkan alamat" value="{{ old('alamat') }}" required oninvalid="this.setCustomValidity('Alamat wajib diisi')" onchange="this.setCustomValidity('')">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mt-2">
+                                            <label for="foto" class="font-weight-bold col-form-label col-3 text-left">Foto Anggota</label>
+                                            <div class="col-9">
+                                                <input type="file" name="foto" required oninvalid="this.setCustomValidity('Foto anggota wajib dipilih'" onchange="this.setCustomValidty('')">
                                             </div>
                                         </div>
 
@@ -83,32 +90,46 @@
                             <tr>
                                 <th width="1%">No.</th>
                                 <th>Nama</th>
-                                <th>NIK</th>
+                                <th>ID Anggota</th>
+                                <th>No. HP</th>
                                 <th>Alamat</th>
-                                <th width="25%">OPSI</th>
+                                <th width="30%">OPSI</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php $no = 1; ?>
                             @foreach ($anggota as $a)
                             <tr>
-                                <td>{{ $no++ }}</td>
-                                <td>{{ $a->nama }}</td>
-                                <td>{{ $a->nik }}</td>
-                                <td>{{ $a->alamat }}</td>
+                                <td onclick="detail('{{ $a->id }}')">{{ $no++ }}</td>
+                                <td onclick="detail('{{ $a->id }}')">{{ $a->nama }}</td>
+                                <td onclick="detail('{{ $a->id }}')">{{ "AGTA-". (321 + ($a->id)) }}</td>
+                                <td onclick="detail('{{ $a->id }}')">{{ $a->no_hp }}</td>
+                                <td onclick="detail('{{ $a->id }}')">{{ $a->alamat }}</td>
                                 <td>
-                                    <a href="/admin/kartu_anggota/{{ $a->id }}" class="btn btn-sm btn-primary"><i class="fa fa-address-card"></i> Cetak Kartu</a>
-                                    <a href="/admin/edit_anggota/{{ $a->id }}" class="btn btn-sm btn-warning"><i class="fa fa-wrench"></i> Edit</a>
-                                    <a href="/admin/hapus_anggota/{{ $a->id }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                    <a href="{{ route('adminKartuAnggota', $a->id) }}" class="btn btn-sm btn-primary"><i class="fa fa-address-card"></i> Cetak Kartu</a>
+                                    <a href="{{ route('adminEditAnggota', $a->id) }}" class="btn btn-sm btn-warning"><i class="fa fa-wrench"></i> Edit</a>
+                                    <a href="{{ route('adminHapusAnggota', $a->id) }}" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                                    <a href="#" class="btn btn-sm btn-info modal_profil" id="{{ $a->id }}" data-toggle="modal" data-target="#profil"><i class="fa fa-user"></i>Profil</a>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-
-                    <p class="text-center">Halaman saat ini: {{ $anggota->currentPage() }} <br>
-                    Jumlah Data: {{ $anggota->total() }} <br>
-                    Data per Halaman: {{ $anggota->perPage() }} <br></p>
+                    <div class="modal fade" id="profil">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Profil Anggota</h5>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body" id="profil_anggota">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="d-flex justify-content-center">
                         {{ $anggota->links() }}
@@ -117,5 +138,25 @@
             </div>
         </div>
     </div>
+
+    @include('admin.footer')
+
+    <script>
+    $(document).ready(function() {
+        $(".modal_profil").click(function() {
+            var id = $(this).attr("id");
+
+            $.ajax({
+                url: 'anggota/profil/'+ id,
+                method: 'GET',
+                data: {id:id},
+                success:function(data){
+                    $("#profil_anggota").html(data);
+                    $("#profil").modal("show");
+                }
+            });
+        });
+    });
+    </script>
 </body>
 @endsection

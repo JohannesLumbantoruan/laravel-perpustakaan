@@ -18,6 +18,8 @@ class CreatePetugas extends Migration
             $table->string('nama');
             $table->string('username');
             $table->string('password');
+            $table->bigInteger('no_hp');
+            $table->string('foto');
             $table->timestamps();
         });
     }

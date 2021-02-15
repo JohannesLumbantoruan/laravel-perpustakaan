@@ -13,8 +13,11 @@ class Anggota extends Model
     protected $primaryKey = 'id';
     protected $fillable = [
         'nama',
-        'nik',
+        'no_hp',
+        'jumlah_peminjaman',
+        'jumlah_dipinjam',
         'alamat',
+        'foto',
     ];
 
     public function peminjaman()

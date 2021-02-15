@@ -7,10 +7,13 @@ use App\Models\Petugas;
 use App\Models\Anggota;
 use App\Models\Buku;
 use App\Models\Peminjaman;
+use App\Models\Katalog;
+use App\Models\Kategori;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use Validator;
+use File;
 
 class PetugasController extends Controller
 {
@@ -87,25 +90,34 @@ class PetugasController extends Controller
             'nama.required'     => 'Nama Lengkap wajib diisi',
             'nama.min'          => 'Nama minimal 4 karakter',
             'nama.max'          => 'Nama maksimal 30 karakter',
-            'nik.required'      => 'NIK wajib diisi',
-            'nik.min'           => 'NIK minimal 5 karakter',
-            'nik.max'           => 'NIK maksimal 10 karakter',
-            'nik.unique'        => 'NIK sudah terdaftar',
+            'no_hp.required'    => 'No. HP wajib diisi',
+            'no_hp.numeric'     => 'No. HP harus berupa angka',
             'alamat.required'   => 'Alamat wajib diisi',
             'alamat.min'        => 'Alamat minimal 5 karakter',
             'alamat.max'        => 'Alamat maksimal 50 karakter',
+            'foto.required'     => 'Foto anggota wajib dipilih',
+            'foto.file'         => 'Foto harus berupa file',
+            'foto.mimes'        => 'Foto harus berekstensi png,jpeg,jpg',
+            'foto.max'          => 'Foto maksimal berukuran 2048',
         ];
 
         $request->validate([
             'nama'      => 'required|min:4|max:30',
-            'nik'       => 'required|min:5|max:10|unique:anggota',
+            'no_hp'     => 'required|numeric',
             'alamat'    => 'required|min:5|max:50',
+            'foto'      => 'required|file|mimes:jpeg,jpg,png|max:2048',
         ], $messages);
+
+        $foto = $request->file('foto');
+        $tempat_upload = 'anggota';
+        $nama_foto = date('d-m-y') ."_". $foto->getClientOriginalName();
+        $foto->move($tempat_upload, $nama_foto);
 
         $anggota = new Anggota;
         $anggota->nama = $request->nama;
-        $anggota->nik = $request->nik;
+        $anggota->no_hp = $request->no_hp;
         $anggota->alamat = $request->alamat;
+        $anggota->foto = $nama_foto;
         $simpan = $anggota->save();
 
         if ($simpan)
@@ -165,6 +177,7 @@ class PetugasController extends Controller
     public function hapusAnggota($id)
     {
         $anggota = Anggota::find($id);
+        File::delete('anggota/'. $anggota->foto);
         $anggota->delete();
 
         return redirect()->route('showAnggota')->with('success', 'Anggota berhasil dihapus');
@@ -175,6 +188,13 @@ class PetugasController extends Controller
         $anggota = Anggota::find($id);
         
         return view('petugas.kartu_anggota', ['anggota' => $anggota]);
+    }
+
+    public function profilAnggota($id)
+    {
+        $anggota = Anggota::find($id);
+
+        return view('petugas.anggota_profil', compact('anggota'));
     }
 
     public function showBuku()
@@ -194,27 +214,58 @@ class PetugasController extends Controller
 
     public function tambahBuku()
     {
-        return view('petugas.tambah_buku');
+        $kategori = Kategori::all();
+
+        return view('petugas.tambah_buku', compact('kategori'));
     }
 
     public function tambahBukuAksi(Request $request)
     {
         $messages = [
-            'judul.required'    => 'Judul Buku wajib diisi',
-            'tahun.required'    => 'Tahun penerbitan wajib diisi',
-            'penulis.required'  => 'Nama Penulis Buku wajib diisi',
+            'judul.required'        => 'Judul Buku wajib diisi',
+            'iabn.required'         => 'No. ISBN wajib diisi',
+            'tahun.required'        => 'Tahun penerbitan wajib diisi',
+            'penulis.required'      => 'Nama Penulis Buku wajib diisi',
+            'kategori.required'     => 'Kategori buku wajib dipilih',
+            'jumlah.required'       => 'Jumlah(stock) buku wajib diisi',
+            'jumlah.numeric'        => 'Jumlah(stock) buku harus berupa angka',
+            'deskripsi.required'    => 'Deskripsi/sinopsis buku wajib diisi',
+            'deskripsi.min'         => 'Deskripsi/sinopsis buku minimal 50 karakter',
+            'deskripsi.max'         => 'Deskripsi/sinopsis buku maksimal 1000 karakter',
+            'penerbit.required'     => 'Penerbit buku wajib diisi',
+            'cover.required'        => 'Cover buku wajib dipilih',
+            'cover.file'            => 'Cover buku harus berupa file gambar',
+            'cover.mimes'           => 'Cover buku harus berekstensi jpeg,jpg,png',
+            'cover.max'             => 'Cover buku maksimal berukuran 2048',
         ];
 
         $request->validate([
             'judul'     => 'required',
+            'isbn'      => 'required',
             'tahun'     => 'required',
             'penulis'   => 'required',
+            'kategori'  => 'required',
+            'jumlah'    => 'required|numeric',
+            'deskripsi' => 'required|min:50|max:1000',
+            'penerbit'  => 'required',
+            'cover'     => 'required|file|mimes:jpeg,jpg,png|max:2048',
         ], $messages);
+
+        $cover = $request->file('cover');
+        $tempat_upload = 'cover';
+        $nama_cover = date('d-m-y') ."_". $cover->getClientOriginalName();
+        $cover->move($tempat_upload, $nama_cover);
 
         $buku = new Buku;
         $buku->judul = $request->judul;
+        $buku->isbn = $request->isbn;
         $buku->tahun = $request->tahun;
         $buku->penulis = $request->penulis;
+        $buku->kategori = $request->kategori;
+        $buku->jumlah = $request->jumlah;
+        $buku->deskripsi = $request->deskripsi;
+        $buku->penerbit = $request->penerbit;
+        $buku->cover = $nama_cover;
         $buku->status = 1;
         $simpan = $buku->save();
 
@@ -269,14 +320,22 @@ class PetugasController extends Controller
     public function hapusBuku($id)
     {
         $buku = Buku::find($id);
+        File::delete('cover/'. $buku->cover);
         $buku->delete();
 
         return back()->with('success', 'Berhasil menghapus buku');
     }
 
+    public function detailBuku($id)
+    {
+        $buku = Buku::find($id);
+
+        return view('petugas.buku_detail', compact('buku'));
+    }
+
     public function showPeminjaman()
     {
-        $peminjaman = Peminjaman::paginate(10);
+        $peminjaman = Peminjaman::orderBy('peminjaman_id', 'desc')->paginate(10);
         $buku = Buku::where('status', 1)->get();
         $anggota = Anggota::all();
 
@@ -285,7 +344,7 @@ class PetugasController extends Controller
 
     public function tambahPeminjaman()
     {
-        $buku = Buku::where('status', '=', 1)->get();
+        $buku = Buku::where('jumlah', '>', 0)->get();
         $anggota = Anggota::all();
 
         return view('petugas.tambah_peminjaman', ['anggota' => $anggota, 'buku' => $buku]);
@@ -317,7 +376,15 @@ class PetugasController extends Controller
 
         if ($simpan)
         {
-            Buku::where('id', '=', $request->buku)->update(['status' => 2]);
+            Buku::where('id', $request->buku)->decrement('jumlah');
+            if (Buku::where('id', $request->buku)->where('jumlah', '>', 0))
+            {
+                Buku::where('id', $request->buku)->update(['status' => 1]);
+            }
+            else
+            {
+                Buku::where('id', $request->buku)->update(['status' => 2]);
+            }
 
             return redirect()->route('showPeminjaman')->with('success', 'Peminjaman baru berhasil ditambahkan');
         }
@@ -331,7 +398,7 @@ class PetugasController extends Controller
     {
         $peminjaman = Peminjaman::find($id);
         $peminjaman->delete();
-        Buku::where('id', '=', $peminjaman->peminjaman_buku)->update(['status' => 1]);
+        Buku::where('id', '=', $peminjaman->peminjaman_buku)->increment('jumlah');
 
         return redirect()->route('showPeminjaman')->with('success', 'Peminjaman berhasil dibatalkan');
     }
@@ -340,7 +407,7 @@ class PetugasController extends Controller
     {
         $peminjaman = Peminjaman::find($id);
         $peminjaman->update(['peminjaman_status' => 1]);
-        Buku::where('id', '=', $peminjaman->peminjaman_buku)->update(['status' => 1]);
+        Buku::where('id', '=', $peminjaman->peminjaman_buku)->increment('jumlah');
 
         return back()->with('success', 'Buku telah dikembalikan');
     }
@@ -398,5 +465,12 @@ class PetugasController extends Controller
 
             return view('petugas.cetak_laporan', ['peminjaman' => $peminjaman, 'tanggal_mulai' => $tanggal_mulai, 'tanggal_sampai' => $tanggal_sampai]);
         }
+    }
+
+    public function katalog()
+    {
+        $buku = Buku::all();
+
+        return view('petugas.katalog', compact('buku'));
     }
 }

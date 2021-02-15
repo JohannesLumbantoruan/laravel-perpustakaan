@@ -5,8 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\PetugasController;
-use App\Http\Controllers\KatalogController;
-use App\Http\Controllers\UploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +20,7 @@ use App\Http\Controllers\UploadController;
 Route::get('/', [LoginController::class, 'home'])->name('home');
 Route::get('/login', [LoginController::class, 'getLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'postLogin'])->name('loginAksi');
-Route::get('/katalog', [KatalogController::class, 'katalog'])->name('katalog');
-Route::get('/katalog/tambah', [KatalogController::class, 'tambahKatalog'])->name('tambahKatalog');
-Route::post('/katalog/tambah', [KatalogController::class, 'tambahKatalogAksi'])->name('tambahKatalogAksi');
+Route::get('/katalog', [LoginController::class, 'katalog'])->name('katalog');
 
 Route::middleware('auth:admin')->group(function()
 {
@@ -46,6 +42,7 @@ Route::middleware('auth:admin')->group(function()
     Route::get('/admin/edit_buku/{id}', [AdminController::class, 'editBuku'])->name('adminEditBuku');
     Route::put('/admin/edit_buku_aksi/{id}', [AdminController::class, 'editBukuAksi'])->name('adminEditBukuAksi');
     Route::get('/admin/hapus_buku/{id}', [AdminController::class, 'hapusBuku'])->name('adminHapusBuku');
+    Route::get('/admin/buku/detail/{id}', [AdminController::class, 'detailBuku'])->name('adminDetailBuku');
     Route::get('/admin/anggota', [AdminController::class, 'showAnggota'])->name('adminShowAnggota');
     Route::get('/admin/tambah_anggota', [AdminController::class, 'tambahAnggota'])->name('adminTambahAnggota');
     Route::post('/admin/tambah_anggota_aksi', [AdminController::class, 'tambahAnggotaAksi'])->name('adminTambahAnggotaAksi');
@@ -54,9 +51,11 @@ Route::middleware('auth:admin')->group(function()
     Route::put('/admin/edit_anggota_aksi/{id}', [AdminController::class, 'editAnggotaAksi'])->name('adminEditAnggotaAksi');
     Route::get('/admin/hapus_anggota/{id}', [AdminController::class, 'hapusAnggota'])->name('adminHapusAnggota');
     Route::get('/admin/kartu_anggota/{id}', [AdminController::class, 'kartuAnggota'])->name('adminKartuAnggota');
+    Route::get('/admin/anggota/profil/{id}', [AdminController::class, 'profilAnggota'])->name('adminProfilAnggota');
     Route::get('/admin/laporan_peminjaman', [AdminController::class, 'laporanPeminjaman'])->name('adminLaporanPeminjaman');
     Route::get('/admin/laporan_peminjaman/cetak', [AdminController::class, 'cetakLaporan'])->name('adminCetakLaporan');
     Route::get('/admin/laporan_peminjaman/filter', [AdminController::class, 'filterLaporanPeminjaman'])->name('adminFilterLaporanPeminjaman');
+    Route::get('/admin/katalog', [AdminController::class, 'katalog'])->name('adminKatalog');
 });
 
 Route::middleware('auth:petugas')->group(function()
@@ -73,6 +72,7 @@ Route::middleware('auth:petugas')->group(function()
     Route::put('/petugas/edit_anggota_aksi/{id}', [PetugasController::class, 'editAnggotaAksi'])->name('editAnggotaAksi');
     Route::get('/petugas/hapus_anggota/{id}', [PetugasController::class, 'hapusAnggota'])->name('hapusAnggota');
     Route::get('/petugas/kartu_anggota/{id}', [PetugasController::class, 'kartuAnggota'])->name('kartuAnggota');
+    Route::get('/petugas/anggota/profil/{id}', [PetugasController::class, 'profilAnggota'])->name('profilAnggota');
     Route::get('/petugas/buku', [PetugasController::class, 'showBuku'])->name('showBuku');
     Route::get('/petugas/buku/cari', [PetugasController::class, 'cariBuku'])->name('cariBuku');
     Route::get('/petugas/tambah_buku', [PetugasController::class, 'tambahBuku'])->name('tambahBuku');
@@ -80,6 +80,7 @@ Route::middleware('auth:petugas')->group(function()
     Route::get('/petugas/edit_buku/{id}', [PetugasController::class, 'editBuku'])->name('editBuku');
     Route::put('/petugas/edit_buku_aksi/{id}', [PetugasController::class, 'editBukuAksi'])->name('editBukuAksi');
     Route::get('/petugas/hapus_buku/{id}', [PetugasController::class, 'hapusBuku'])->name('hapusBuku');
+    Route::get('/petugas/buku/detail/{id}', [PetugasController::class, 'detailBuku'])->name('detailBuku');
     Route::get('/petugas/peminjaman', [PetugasController::class, 'showPeminjaman'])->name('showPeminjaman');
     Route::get('/petugas/peminjaman/cari', [PetugasController::class, 'cariPeminjaman'])->name('cariPeminjaman');
     Route::get('/petugas/tambah_peminjaman', [PetugasController::class, 'tambahPeminjaman'])->name('tambahPeminjaman');
@@ -89,4 +90,5 @@ Route::middleware('auth:petugas')->group(function()
     Route::get('/petugas/laporan_peminjaman', [PetugasController::class, 'laporanPeminjaman'])->name('laporanPeminjaman');
     Route::get('/petugas/laporan_peminjaman/filter', [PetugasController::class, 'filterLaporanPeminjaman'])->name('filterLaporanPeminjaman');
     Route::get('/petugas/laporan_peminjaman/cetak', [PetugasController::class, 'cetakLaporan'])->name('cetakLaporan');
+    Route::get('/petugas/katalog', [PetugasController::class, 'katalog'])->name('petugasKatalog');
 });

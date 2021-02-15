@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
+<nav class="navbar navbar-expand-lg navbar-primary bg-primary mb-2">
     <div class="container">
-        <a href="{{ route('login') }}" class="navbar-brand">SI PERPUSTAKAAN</a>
+        <a href="{{ route('login') }}" class="navbar-brand" id="brand">SI PERPUSTAKAAN</a>
 
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarText">
-            <span class="navbar-toggler-icon"></span>
+            <span><i class="fa fa-bars text-white"></i></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto" id="navigation-left">
                 <li class="nav-item">
                     <a href="{{ route('petugasDashboard') }}" class="nav-link"><i class="fa fa-home"></i> Dashboard</a>
                 </li>
@@ -33,7 +33,7 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><i class="fa fa-book-reader"></i> Peminjaman</a>
                         <div class="dropdown-menu">
                             <a href="{{ route('showPeminjaman') }}" class="dropdown-item"><i class="fa fa-list-alt"></i> Daftar Peminjaman</a>
-                            <a href="{{ route('tambahPeminjaman') }}" class="dropdown-item"><i class="fa fa-random"></i> Tambah Peminjaman</a>
+                            <a href="{{ route('tambahPeminjaman') }}" class="dropdown-item"><i class="fa fa-plus"></i> Tambah Peminjaman</a>
                         </div>
                     </div>
                 </li>
@@ -41,7 +41,7 @@
                     <a href="{{ route('laporanPeminjaman') }}" class="nav-link"><i class="fa fa-file-alt"></i> Laporan Peminjaman</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('katalog') }}" class="nav-link"><i class="fa fa-th-list"></i> Katalog</a>
+                    <a href="{{ route('petugasKatalog') }}" class="nav-link"><i class="fa fa-th-list"></i> Katalog</a>
                 </li>
             </ul>
 

@@ -3,7 +3,7 @@
 @section('title', 'Dashboard Admin')
 
 @section('content')
-<body>
+<body class="flex-wrapper">
     @include('admin.navigation')
     <div class="container">
         <div class="jumbotron text-center">
@@ -58,7 +58,7 @@
             </div>
 
             <div class="col-md-3">
-                <div class="card bg-primary text-white">
+                <div class="card bg-info text-white">
                     <div class="card-body">
                         <h1>
                             <i class="fa fa-user"></i>
@@ -72,6 +72,8 @@
             </div>
         </div>
     </div>
+
+    @include('admin.footer')
 </body>
 
 @endsection

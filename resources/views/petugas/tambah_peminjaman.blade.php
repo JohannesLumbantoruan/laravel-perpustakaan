@@ -45,13 +45,10 @@
                     <div class="form-group">
                         <label for="anggota" class="font-weight-bold">Anggota</label>
                         <select name="anggota" class="form-control">
-                            <option value="">- Pilih Anggota</option>
-                            <?php foreach ($anggota as $a){ ?>
-                            <option value="{{ $a->id}}"><?php echo $a->nama." 
-                             NIK: ".$a->nik; ?></option>
-                             <?php
-                             }
-                             ?>
+                            <option value="">--Pilih Anggota--</option>
+                            @foreach ($anggota as $a)
+                            <option value="{{ $a->id }}">{{ $a->nama ." | ID: AGTA". (321 + ($a->id)) }}</option>
+                            @endforeach
                         </select>
                         <span class="text-danger">@error('anggota') {{ $message }} @enderror</span>
                     </div>
@@ -75,5 +72,7 @@
             </div>
         </div>
     </div>
+
+    @include('petugas.footer')
 </body>
 @endsection

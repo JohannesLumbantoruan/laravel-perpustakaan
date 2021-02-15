@@ -53,7 +53,7 @@
                                         <select name="anggota" class="form-control">
                                             <option value="">- Pilih Anggota</option>
                                             @foreach ($anggota as $a)
-                                            <option value="{{ $a->id }}">{{ $a->nama." | NIK: ".$a->nik }}</option>
+                                            <option value="{{ $a->id }}">{{ $a->nama. " | ID: AGTA-". (321 + ($a->id)) }}</option>
                                             @endforeach
                                         </select>
                                         <span class="text-danger">@error('anggota') {{ $message }} @enderror</span>
